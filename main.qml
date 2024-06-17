@@ -1,10 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import QtQuick.Window 2.15
+
 
 ApplicationWindow {
     visible: true
-    width: 1200
-    height: 1200
+    width: 800
+    height: 600
     title: qsTr("Server 1Sklad")
 
     property string postData: ""
@@ -61,14 +64,11 @@ ApplicationWindow {
         }
 
         // Таблица данных
-        ListView {
+        TableView {
             width: 650
             height: 400
-            model: ListModel {
-                ListElement { barcode: "123456789012"; quantity: 10; comment: "Пример комментария 1" }
-                ListElement { barcode: "987654321098"; quantity: 20; comment: "Пример комментария 2" }
-                ListElement { barcode: "192837465091"; quantity: 30; comment: "Пример комментария 3" }
-            }
+            model: barcodesData
+
             delegate: Row {
                 spacing: 1
 
@@ -80,6 +80,12 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         text: model.barcode
                     }
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            clipboard.text = model.barcode
+                        }
+                    }
                 }
                 Rectangle {
                     width: 130
@@ -88,6 +94,12 @@ ApplicationWindow {
                     Text {
                         anchors.centerIn: parent
                         text: model.quantity
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            clipboard.text = model.quantity
+                        }
                     }
                 }
                 Rectangle {
@@ -98,20 +110,22 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         text: model.comment
                     }
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                           clipboard.text = model.comment
+                        }
+                    }
                 }
             }
         }
 
-        // Button {
-        //         text: "Добавить штрихкод"
-
-        //         anchors.horizontalCenter: parent.horizontalCenter
-        //         anchors.bottom: parent.bottom
-        //         anchors.bottomMargin: parent.height * 0.1
-        //         onClicked: {
-        //           barcodesData.addRow("122321312", 2, "abababa")
-        //         }
-        //     }
+        Button {
+            text: "Добавить штрихкод"
+            onClicked: {
+                barcodesData.addRow("122321312", 2, "abababa")
+            }
+        }
 
         TextArea {
             id: requestOutput
