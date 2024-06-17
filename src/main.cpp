@@ -2,16 +2,20 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "httpserver.h"
+#include "barcodesdata.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     HttpServer server;
-    server.startServer();
+
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("httpServer", &server);
+
+    BarcodesData barcodesData;
+    engine.rootContext()->setContextProperty("barcodesData", &barcodesData);
 
     const QUrl url(u"qrc:/qt/qml/Main/main.qml"_qs);
     QObject::connect(
@@ -29,6 +33,8 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }
+
+    server.startServer();
 
     return app.exec();
 }

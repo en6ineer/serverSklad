@@ -16,7 +16,9 @@ endif()
 
 qt_add_executable(serverSkladApp src/main.cpp
     src/httpserver.h
-    src/httpserver.cpp)
+    src/httpserver.cpp
+    src/barcodesdata.h
+    src/barcodesdata.cpp)
 
 qt_add_resources(serverSkladApp "configuration"
     PREFIX "/"

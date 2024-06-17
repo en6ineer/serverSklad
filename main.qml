@@ -3,9 +3,9 @@ import QtQuick.Controls 2.15
 
 ApplicationWindow {
     visible: true
-    width: 640
-    height: 480
-    title: qsTr("Server Sklad")
+    width: 1200
+    height: 1200
+    title: qsTr("Server 1Sklad")
 
     property string postData: ""
 
@@ -15,16 +15,108 @@ ApplicationWindow {
 
         Text {
             id: urlText
-            text: "URL: http://localhost:8080/sklad"
+            text: httpServer.serverUrl
             font.pointSize: 20
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
+        // Заголовок таблицы
+        Row {
+            spacing: 1
+
+            Rectangle {
+                width: 260
+                height: 40
+                color: "lightgray"
+                border.color: "black"
+                Text {
+                    anchors.centerIn: parent
+                    text: "Штрихкод"
+                    font.bold: true
+                }
+            }
+            Rectangle {
+                width: 130
+                height: 40
+                color: "lightgray"
+                border.color: "black"
+                Text {
+                    anchors.centerIn: parent
+                    text: "Количество"
+                    font.bold: true
+                }
+            }
+            Rectangle {
+                width: 260
+                height: 40
+                color: "lightgray"
+                border.color: "black"
+                Text {
+                    anchors.centerIn: parent
+                    text: "Комментарий"
+                    font.bold: true
+                }
+            }
+        }
+
+        // Таблица данных
+        ListView {
+            width: 650
+            height: 400
+            model: ListModel {
+                ListElement { barcode: "123456789012"; quantity: 10; comment: "Пример комментария 1" }
+                ListElement { barcode: "987654321098"; quantity: 20; comment: "Пример комментария 2" }
+                ListElement { barcode: "192837465091"; quantity: 30; comment: "Пример комментария 3" }
+            }
+            delegate: Row {
+                spacing: 1
+
+                Rectangle {
+                    width: 260
+                    height: 50
+                    border.color: "black"
+                    Text {
+                        anchors.centerIn: parent
+                        text: model.barcode
+                    }
+                }
+                Rectangle {
+                    width: 130
+                    height: 50
+                    border.color: "black"
+                    Text {
+                        anchors.centerIn: parent
+                        text: model.quantity
+                    }
+                }
+                Rectangle {
+                    width: 260
+                    height: 50
+                    border.color: "black"
+                    Text {
+                        anchors.centerIn: parent
+                        text: model.comment
+                    }
+                }
+            }
+        }
+
+        // Button {
+        //         text: "Добавить штрихкод"
+
+        //         anchors.horizontalCenter: parent.horizontalCenter
+        //         anchors.bottom: parent.bottom
+        //         anchors.bottomMargin: parent.height * 0.1
+        //         onClicked: {
+        //           barcodesData.addRow("122321312", 2, "abababa")
+        //         }
+        //     }
+
         TextArea {
             id: requestOutput
-            width: parent.width * 0.8
-            height: parent.height * 0.6
+            width: parent.width * 0.9
+            height: parent.height * 0.2
             readOnly: true
             placeholderText: "Received POST requests will appear here"
             text: postData

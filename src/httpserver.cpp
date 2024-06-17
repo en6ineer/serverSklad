@@ -18,11 +18,18 @@ void HttpServer::startServer()
         qDebug() << "Server started, listening on port 8080";
         foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
             if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress::LocalHost) {
-                qDebug() << "Server URL: http://" << address.toString() << ":8080/sklad";
+                serverUrl = "http://" + address.toString() + ":8080/sklad";
+                emit serverUrlChanged();
+                qDebug() << "Server URL:" << serverUrl;
                 break;
             }
         }
     }
+}
+
+QString HttpServer::getUrl() const
+{
+    return serverUrl;
 }
 
 void HttpServer::onNewConnection()
