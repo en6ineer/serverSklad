@@ -14,7 +14,9 @@ if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
-qt_add_executable(serverSkladApp src/main.cpp)
+qt_add_executable(serverSkladApp src/main.cpp
+    src/httpserver.h
+    src/httpserver.cpp)
 
 qt_add_resources(serverSkladApp "configuration"
     PREFIX "/"

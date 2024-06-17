@@ -7,13 +7,15 @@ ApplicationWindow {
     height: 480
     title: qsTr("Server Sklad")
 
+    property string postData: ""
+
     Column {
         anchors.centerIn: parent
         spacing: 20
 
         Text {
             id: urlText
-            text: "URL: " + Qt.platform.os + ":8080"
+            text: "URL: http://localhost:8080/sklad"
             font.pointSize: 20
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
@@ -25,6 +27,14 @@ ApplicationWindow {
             height: parent.height * 0.6
             readOnly: true
             placeholderText: "Received POST requests will appear here"
+            text: postData
+        }
+    }
+
+    Connections {
+        target: httpServer
+        function onNewPostRequest(data) {
+            postData += data + "\n";
         }
     }
 }
