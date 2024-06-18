@@ -19,7 +19,9 @@ qt_add_executable(serverSkladApp src/main.cpp
     src/httpserver.h
     src/httpserver.cpp
     src/barcodesdata.h
-    src/barcodesdata.cpp)
+    src/barcodesdata.cpp
+    src/qclipboardproxy.hpp
+    src/qclipboardproxy.cpp)
 
 qt_add_resources(serverSkladApp "configuration"
     PREFIX "/"

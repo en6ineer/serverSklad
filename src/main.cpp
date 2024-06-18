@@ -4,6 +4,7 @@
 #include <QClipboard>
 #include "httpserver.h"
 #include "barcodesdata.h"
+#include "qclipboardproxy.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -18,8 +19,9 @@ int main(int argc, char *argv[])
     BarcodesData barcodesData;
     engine.rootContext()->setContextProperty("barcodesData", &barcodesData);
 
-    QClipboard *clipboard = QGuiApplication::clipboard();
-    engine.rootContext()->setContextProperty("clipboard", clipboard);
+    // Создание и регистрация экземпляра QClipboardProxy
+    QClipboardProxy clipboardProxy(QGuiApplication::clipboard());
+    engine.rootContext()->setContextProperty("clipboard", &clipboardProxy);
 
     const QUrl url(u"qrc:/qt/qml/Main/main.qml"_qs);
     QObject::connect(
