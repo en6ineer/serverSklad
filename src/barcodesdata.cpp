@@ -64,16 +64,16 @@ QHash<int, QByteArray> BarcodesData::roleNames() const
 
 void BarcodesData::addRow(const QString &barcode, int quantity, const QString &comment)
 {
-    // Проверяем, существует ли строка с таким штрихкодом
-    for (int i = 0; i < m_data.size(); ++i) {
-        if (m_data[i].barcode == barcode) {
-            // Если строка найдена, увеличиваем количество
-            m_data[i].quantity += quantity;
-            // Уведомляем об изменении данных в строке
-            emit dataChanged(index(i, 0), index(i, 1), { QuantityRole });
-            return;
-        }
-    }
+    // // Проверяем, существует ли строка с таким штрихкодом
+    // for (int i = 0; i < m_data.size(); ++i) {
+    //     if (m_data[i].barcode == barcode) {
+    //         // Если строка найдена, увеличиваем количество
+    //         m_data[i].quantity += quantity;
+    //         // Уведомляем об изменении данных в строке
+    //         emit dataChanged(index(i, 0), index(i, 1), { QuantityRole });
+    //         return;
+    //     }
+    // }
 
     // Если штрихкод не найден, добавляем новую строку
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size());

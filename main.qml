@@ -3,7 +3,6 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.15
 
-
 ApplicationWindow {
     visible: true
     width: 800
@@ -113,7 +112,7 @@ ApplicationWindow {
                     MouseArea {
                         anchors.fill: parent
                         onDoubleClicked: {
-                           clipboard.text = model.comment
+                            clipboard.text = model.comment
                         }
                     }
                 }
@@ -140,6 +139,9 @@ ApplicationWindow {
     Connections {
         target: httpServer
         function onNewPostRequest(data) {
+            // Разбираем JSON строку и добавляем данные в модель
+            var jsonObject = JSON.parse(data);
+            barcodesData.addRow(jsonObject.barcode, jsonObject.quantity, jsonObject.comment);
             postData += data + "\n";
         }
     }

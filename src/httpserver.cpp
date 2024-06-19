@@ -1,6 +1,7 @@
 #include "httpserver.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QNetworkInterface>
 #include <QDebug>
 
@@ -48,13 +49,23 @@ void HttpServer::onReadyRead()
     QString requestString(requestData);
 
     if (requestString.contains("POST /sklad")) {
-        int jsonStartIndex = requestString.indexOf("{");
-        int jsonEndIndex = requestString.lastIndexOf("}");
+        int jsonStartIndex = requestString.indexOf("["); // Изменено на поиск '[' для массива JSON
+        int jsonEndIndex = requestString.lastIndexOf("]");
         QString jsonString = requestString.mid(jsonStartIndex, jsonEndIndex - jsonStartIndex + 1);
 
         QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
-        if (!jsonDoc.isNull() && jsonDoc.isObject()) {
-            emit newPostRequest(jsonString);
+        if (!jsonDoc.isNull() && jsonDoc.isArray()) { // Проверяем, что JSON является массивом
+            QJsonArray jsonArray = jsonDoc.array();
+            for (const QJsonValue &value : jsonArray) {
+                if (value.isObject()) {
+                    QJsonObject jsonObject = value.toObject();
+                    QString barcode = jsonObject["barcode"].toString();
+                    int quantity = jsonObject["quantity"].toInt();
+                    QString comment = jsonObject["comment"].toString();
+                    emit newPostRequest(QString("{\"barcode\":\"%1\", \"quantity\":%2, \"comment\":\"%3\"}")
+                                            .arg(barcode).arg(quantity).arg(comment));
+                }
+            }
             QString response = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n{\"message\": \"Структура успешно получена\"}\r\n";
             clientSocket->write(response.toUtf8());
         } else {
