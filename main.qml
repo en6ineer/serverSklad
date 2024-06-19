@@ -62,62 +62,117 @@ ApplicationWindow {
             }
         }
 
-        // Таблица данных
+
         TableView {
+            id: tableView
             width: 650
             height: 400
             model: barcodesData
+            rowSpacing: 10
+            columnSpacing: 20
 
-            delegate: Row {
-                spacing: 1
-
-                Rectangle {
-                    width: 260
-                    height: 50
-                    border.color: "black"
-                    Text {
-                        anchors.centerIn: parent
-                        text: model.barcode
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onDoubleClicked: {
-                            clipboard.text = model.barcode
-                        }
-                    }
-                }
-                Rectangle {
-                    width: 130
-                    height: 50
-                    border.color: "black"
-                    Text {
-                        anchors.centerIn: parent
-                        text: model.quantity
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onDoubleClicked: {
-                            clipboard.text = model.quantity
-                        }
-                    }
-                }
-                Rectangle {
-                    width: 260
-                    height: 50
-                    border.color: "black"
-                    Text {
-                        anchors.centerIn: parent
-                        text: model.comment
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onDoubleClicked: {
-                            clipboard.text = model.comment
-                        }
-                    }
-                }
+            // Указываем ширину колонок
+            columnWidthProvider: function(column) {
+                return column === 0 ? 260 : (column === 1 ? 130 : 260);
             }
+
+            delegate: Rectangle {
+                implicitHeight: 50
+                implicitWidth: tableView.columnWidth(column)  // Устанавливаем ширину делегата в зависимости от колонки
+                border.color: "black"
+                border.width: 1
+
+                // Внутренний текстовый элемент, который будет отображать данные модели
+                Text {
+                    anchors.centerIn: parent
+                    wrapMode: Text.Wrap
+                    text: {
+                        if (column === 0) {
+                            return model.barcode
+                        } else if (column === 1) {
+                            return model.quantity
+                        } else if (column === 2) {
+                            return model.comment
+                        }
+                    }
+                }
+
+                MouseArea {
+                               anchors.fill: parent
+                               onDoubleClicked: {
+                                   if (column === 0) {
+                                       clipboard.text = model.barcode
+                                   } else if (column === 1) {
+                                       clipboard.text = model.quantity
+                                   } else if (column === 2) {
+                                       clipboard.text = model.comment
+                                   }
+
+                               }
+                       }
+            }
+
         }
+
+
+
+
+        // Таблица данных
+       // TableView {
+       //     width: 650
+       //     height: 400
+       //     model: barcodesData
+
+       //     delegate: Row {
+       //         spacing: 1
+
+       //         Rectangle {
+       //             width: 260
+       //             height: 50
+       //             border.color: "black"
+       //             Text {
+       //                 anchors.centerIn: parent
+       //                 text: model.barcode
+       //             }
+       //             MouseArea {
+       //                 anchors.fill: parent
+       //                 onDoubleClicked: {
+       //                     clipboard.text = model.barcode
+       //                 }
+       //             }
+       //         }
+       //         Rectangle {
+       //             width: 130
+       //             height: 50
+       //             border.color: "black"
+       //             Text {
+       //                 anchors.centerIn: parent
+       //                 text: model.quantity
+       //             }
+       //             MouseArea {
+       //                 anchors.fill: parent
+       //                 onDoubleClicked: {
+       //                     clipboard.text = model.quantity
+       //                 }
+       //             }
+       //         }
+       //         Rectangle {
+       //             width: 260
+       //             height: 50
+       //             border.color: "black"
+       //             Text {
+       //                 anchors.centerIn: parent
+       //                 text: model.comment
+       //             }
+       //             MouseArea {
+       //                 anchors.fill: parent
+       //                 onDoubleClicked: {
+       //                     clipboard.text = model.comment
+       //                 }
+       //             }
+       //         }
+       //     }
+       // }
 
         Button {
             text: "Добавить штрихкод"
@@ -130,7 +185,7 @@ ApplicationWindow {
             id: requestOutput
             width: parent.width * 0.9
             height: parent.height * 0.2
-            readOnly: true
+            readOnly: true // Разрешаем только чтение, чтобы позволить прокрутку
             placeholderText: "Received POST requests will appear here"
             text: postData
         }
