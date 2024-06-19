@@ -62,7 +62,7 @@ QHash<int, QByteArray> BarcodesData::roleNames() const
     return roles;
 }
 
-void BarcodesData::addRow(const QString &barcode, int quantity, const QString &comment)
+void BarcodesData::addRow(const QString &barcode, QString quantity, const QString &comment)
 {
     // // Проверяем, существует ли строка с таким штрихкодом
     // for (int i = 0; i < m_data.size(); ++i) {

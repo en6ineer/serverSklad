@@ -7,7 +7,7 @@
 
 struct BarcodeItem {
     QString barcode;
-    int quantity;
+    QString quantity;
     QString comment;
 };
 
@@ -29,7 +29,7 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-   Q_INVOKABLE void addRow(const QString &barcode, int quantity, const QString &comment = QString());
+   Q_INVOKABLE void addRow(const QString &barcode, QString quantity, const QString &comment = QString());
    Q_INVOKABLE void clear();
 
 private:
