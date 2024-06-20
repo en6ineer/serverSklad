@@ -8,7 +8,7 @@ project(serverSkladApp LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick)
+find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick Widgets)
 
 
 if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
@@ -34,6 +34,7 @@ target_link_libraries(serverSkladApp PRIVATE
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
+    Qt6::Widgets
 )
 
 set(QT_QML_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml)

@@ -66,7 +66,7 @@ void HttpServer::onReadyRead()
                                             .arg(barcode).arg(quantity).arg(comment));
                 }
             }
-            QString response = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n{\"message\": \"Структура успешно получена\"}\r\n";
+            QString response = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n{\"Структура успешно получена\"}\r\n";
             clientSocket->write(response.toUtf8());
         } else {
             QString response = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\n\r\nInvalid JSON\r\n";

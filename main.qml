@@ -129,6 +129,32 @@ ApplicationWindow {
             }
         }
 
+
+        // Новая строка с кнопками
+                Row {
+                    spacing: 20
+                    Button {
+                        text: "Скопировать штрихкоды"
+                        onClicked: {
+                            clipboard.text = barcodesData.getColumnData(0)
+                        }
+                    }
+                    Button {
+                        text: "Скопировать количество"
+                        onClicked: {
+                            clipboard.text = barcodesData.getColumnData(1)
+                        }
+                    }
+                    Button {
+                        text: "Скопировать комментарии"
+                        onClicked: {
+                            clipboard.text = barcodesData.getColumnData(2)
+                        }
+                    }
+                }
+
+
+
         Button {
                     text: "Очистить таблицу"
                     onClicked: {
@@ -136,14 +162,14 @@ ApplicationWindow {
                     }
                 }
 
-        TextArea {
-            id: requestOutput
-            width: parent.width * 0.9
-            height: parent.height * 0.2
-            readOnly: true // Разрешаем только чтение, чтобы позволить прокрутку
-            placeholderText: "Received POST requests will appear here"
-            text: postData
-        }
+        // TextArea {
+        //     id: requestOutput
+        //     width: parent.width * 0.9
+        //     height: parent.height * 0.2
+        //     readOnly: true // Разрешаем только чтение, чтобы позволить прокрутку
+        //     placeholderText: "Received POST requests will appear here"
+        //     text: postData
+        // }
     }
 
     Connections {
@@ -153,26 +179,26 @@ ApplicationWindow {
                // Разбираем JSON строку и добавляем данные в модель
                var jsonObject = JSON.parse(data);
                barcodesData.addRow(jsonObject.barcode, jsonObject.quantity, jsonObject.comment);
-               postData += data + "\n";
+               // postData += data + "\n";
                //barcodesData.addRow("*****", 0, "*****");
            }
        }
 
-    function getCurrentDateTime() {
-           var now = new Date();
-           var day = now.getDate();
-           var month = now.getMonth() + 1; // Месяцы начинаются с 0
-           var hours = now.getHours();
-           var minutes = now.getMinutes();
-           var seconds = now.getSeconds();
+    // function getCurrentDateTime() {
+    //        var now = new Date();
+    //        var day = now.getDate();
+    //        var month = now.getMonth() + 1; // Месяцы начинаются с 0
+    //        var hours = now.getHours();
+    //        var minutes = now.getMinutes();
+    //        var seconds = now.getSeconds();
 
-           // Добавляем ведущие нули для однозначных чисел
-           day = day < 10 ? '0' + day : day;
-           month = month < 10 ? '0' + month : month;
-           hours = hours < 10 ? '0' + hours : hours;
-           minutes = minutes < 10 ? '0' + minutes : minutes;
-           seconds = seconds < 10 ? '0' + seconds : seconds;
+    //        // Добавляем ведущие нули для однозначных чисел
+    //        day = day < 10 ? '0' + day : day;
+    //        month = month < 10 ? '0' + month : month;
+    //        hours = hours < 10 ? '0' + hours : hours;
+    //        minutes = minutes < 10 ? '0' + minutes : minutes;
+    //        seconds = seconds < 10 ? '0' + seconds : seconds;
 
-           return day +"."+ month + " " + hours + ":" + minutes + ":" + seconds;
-       }
+    //        return day +"."+ month + " " + hours + ":" + minutes + ":" + seconds;
+    //    }
 }

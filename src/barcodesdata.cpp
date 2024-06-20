@@ -87,3 +87,25 @@ void BarcodesData::clear()
     m_data.clear();
     endResetModel();
 }
+
+
+QString BarcodesData::getColumnData(int column) const
+{
+    QString result;
+    for (const BarcodeItem &item : m_data) {
+        switch (column) {
+        case 0:
+            result += item.barcode + "\n";
+            break;
+        case 1:
+            result += item.quantity + "\n";
+            break;
+        case 2:
+            result += item.comment + "\n";
+            break;
+        default:
+            break;
+        }
+    }
+    return result;
+}

@@ -29,8 +29,10 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-   Q_INVOKABLE void addRow(const QString &barcode, QString quantity, const QString &comment = QString());
-   Q_INVOKABLE void clear();
+    Q_INVOKABLE void addRow(const QString &barcode, QString quantity, const QString &comment = QString());
+    Q_INVOKABLE void clear();
+    Q_INVOKABLE QString getColumnData(int column) const; // Новый метод для получения данных из колонки
+
 
 private:
     QList<BarcodeItem> m_data;
